@@ -20,7 +20,7 @@ public class ShannonsModel extends Observable {
 	 * @return the value of bandwidth
 	 */
 	public double getBandwidth() {
-		return bandwidth;
+		return this.bandwidth;
 	}
 
 	/**
@@ -29,7 +29,7 @@ public class ShannonsModel extends Observable {
 	 * @return the variable signal to noise
 	 */
 	public double getSignalToNoise() {
-		return signalToNoise;
+		return this.signalToNoise;
 	}
 
 	/**
@@ -39,9 +39,10 @@ public class ShannonsModel extends Observable {
 	 *            is the value to be set to bandwidth
 	 */
 	public void setBandwidth(double b) {
-		bandwidth = b;
+		this.bandwidth = b;
+		System.out.println(this.bandwidth);
 		setChanged();
-		notifyObservers(b);
+		notifyObservers(this.bandwidth);
 	}
 
 	/**
@@ -51,9 +52,10 @@ public class ShannonsModel extends Observable {
 	 *            is the value to be set to signalToNoise
 	 */
 	public void setSignalToNoise(double stn) {
-		signalToNoise = stn;
+		this.signalToNoise = stn;
+		System.out.println(this.signalToNoise);
 		setChanged();
-		notifyObservers(stn);
+		notifyObservers(this.signalToNoise);
 	}
 
 
