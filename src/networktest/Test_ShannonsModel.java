@@ -74,7 +74,7 @@ public class Test_ShannonsModel extends TestCase {
 		 DecimalFormat DF = new DecimalFormat("##.##");
 		model.setBandwidth(3000);
 		model.setSignalToNoise(30);
-		testVariable = "[The bandwidth is: " + Double.parseDouble(DF.format(model.getBandwidth())) + " hz, The Signal to noise is: " + Double.parseDouble(DF.format(model.getSignalToNoise())) + "db, The maximum data rate is: " + Double.parseDouble(DF.format(model.getMaximumDataRate())) + " bps]";
+		testVariable = "Bandwidth is: " + Double.parseDouble(DF.format(model.getBandwidth())) + " , Signal to noise is:  " + Double.parseDouble(DF.format(model.getSignalToNoise())) + ", Maximum data rate is: " + Double.parseDouble(DF.format(model.getMaximumDataRate()));
 		assertEquals(model.toString(), testVariable);		
 	}
 

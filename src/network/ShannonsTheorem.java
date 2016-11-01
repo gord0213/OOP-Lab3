@@ -3,6 +3,7 @@ package network;
 
 
 import java.awt.Container;
+import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.text.DecimalFormat;
 import java.util.Observer;
@@ -101,7 +102,6 @@ public class ShannonsTheorem implements ShannonsController{
 	private void initGUI(){
 		JFrame appFrame = new JFrame("Shannons Theorem");
 		appFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		
 		ShannonsPanel panel1 = new ShannonsPanel(this, "Text");
 		ShannonsPanel panel2 = new ShannonsPanel(this, "Slider");
 		ShannonsPanel panel3 = new ShannonsPanel(this, "Text");
@@ -121,7 +121,7 @@ public class ShannonsTheorem implements ShannonsController{
 		model.addObserver(panel2);
 		model.addObserver(panel3);
 		
-		appFrame.getContentPane().add(container);
+		appFrame.getContentPane().add(container).setPreferredSize(new Dimension(500, 400));
 		appFrame.pack();
 		appFrame.setVisible(true);
 		

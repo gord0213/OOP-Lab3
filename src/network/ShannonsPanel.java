@@ -26,28 +26,44 @@ public class ShannonsPanel extends JPanel implements Observer{
 	private ShannonsController controller;
 	private JLabel maxDataRateLBL;
 	private String designOption;
-	
-	public ShannonsPanel(ShannonsController ctl){
-		maxDataRateLBL = new JLabel("Bandwidth is: " + "???" + " , Signal to noise is:  " + "???" + ", Maximum data rate is: " + "???");
-		setController(ctl);
-		initGUI();
-	}
+
+	/**
+	 * 
+	 * @param ctl
+	 * @param option Option for Either Slider or Text
+	 */
 	public ShannonsPanel(ShannonsController ctl, String option){
 		maxDataRateLBL = new JLabel("Bandwidth is: " + "???" + " , Signal to noise is:  " + "???" + ", Maximum data rate is: " + "???");
 		designOption = option;
 		setController(ctl);
 		initGUI();
 	}
+	/**
+	 * 
+	 * @return the maxDataRateLBL
+	 */
 	public JLabel getMaxDataRateLBL(){
 		return maxDataRateLBL;
 		
 	}
+	/**
+	 * Takes in a Jlabel that is representing the updated MDR Label
+	 * 
+	 * @param mbrlbl new maximumDataRateLBL
+	 */
 	public void setMaxDataRateLBL(JLabel mbrlbl){
 		maxDataRateLBL = mbrlbl;
 	}
+	/**
+	 * sets the controller variable
+	 * @param ctl the controler 
+	 */
 	public void setController(ShannonsController ctl){
 		controller = ctl;
 	}
+	/**
+	 * Initializes the GUI
+	 */
 	private void initGUI(){
 	
 		try{
@@ -71,22 +87,29 @@ public class ShannonsPanel extends JPanel implements Observer{
 			System.out.println(">>> error: " + e.getMessage());
 		}
 	}
-	
-	
-	
+	/**
+	 * Creates a panel that holds the signal to noise option in regards to
+	 * the designOption Attribute
+	 * 
+	 * @return the compiled Signal to noise panel
+	 */
 	private JPanel createSignalToNoisePanel(){
 		JPanel STNpanel = new JPanel();
 		STNpanel.setLayout(new BoxLayout(STNpanel,BoxLayout.X_AXIS));
 		JLabel label = new JLabel("Signal to noise in (DB)");
 		STNpanel.add(label);
+		
 		if (designOption.equals("Text")){
 			JTextField userInput = new JTextField(20);
 			STNpanel.add(userInput);
 			userInput.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
+					try{
 					controller.setSignalToNoise(Double.parseDouble(userInput.getText()));
-					//System.out.println(">> enter pressed and signal to noise changed to " + userInput.getText());
+					}catch(Exception error){
+					
+					}
 				}
 			});
 		}else if (designOption.equals("Slider")){
@@ -95,7 +118,6 @@ public class ShannonsPanel extends JPanel implements Observer{
 				@Override
 				public void stateChanged(ChangeEvent e) {
 					double value = stnSlider.getValue();
-					System.out.println(">>> Value of signal to noise slider is : " + value);
 					controller.setSignalToNoise(value);
 				}
 			});
@@ -103,6 +125,12 @@ public class ShannonsPanel extends JPanel implements Observer{
 		}
 		return STNpanel;
 	}
+	/**
+	 * Creates a panel that holds the bandwidth option in regards to
+	 * the designOption Attribute
+	 *
+	 * @return the compiled Bandwidth panel
+	 */
 	private JPanel createBandwidthPanel(){
 		JPanel bwPanel = new JPanel();
 		bwPanel.setLayout(new BoxLayout(bwPanel, BoxLayout.X_AXIS));
@@ -114,8 +142,9 @@ public class ShannonsPanel extends JPanel implements Observer{
 			userInput.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					controller.setBandwidth(Double.parseDouble(userInput.getText()));
-					System.out.println(">> enter pressed and Bandwidth changed to " + userInput.getText());
+					try{
+						controller.setBandwidth(Double.parseDouble(userInput.getText()));
+					}catch(Exception error){ }	
 				}
 			});
 		}else if (designOption.equals("Slider")){
@@ -125,7 +154,6 @@ public class ShannonsPanel extends JPanel implements Observer{
 				@Override
 				public void stateChanged(ChangeEvent e) {
 					double value = bandwidthSlider.getValue();
-					System.out.println(">>> Value of bandwidth slider is : " + value);
 					controller.setBandwidth(value);
 				}
 			});
@@ -133,8 +161,9 @@ public class ShannonsPanel extends JPanel implements Observer{
 		}
 		
 		return bwPanel;
-	}
+	}	
 	public void update(Observable o, Object arg){
 		maxDataRateLBL.setText(arg.toString());
+		
 	}
 }
