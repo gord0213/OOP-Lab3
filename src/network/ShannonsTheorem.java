@@ -3,13 +3,18 @@ package network;
 
 
 import java.awt.Container;
+import java.awt.GridLayout;
 import java.text.DecimalFormat;
 import java.util.Observer;
-
+import java.awt.Color;
+import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JSlider;
+
 
 /**
  * 
@@ -21,15 +26,38 @@ public class ShannonsTheorem implements ShannonsController{
 
 	/* ATTRIBUTES	-----------------------------------------------------	*/
 	private ShannonsModel model = new ShannonsModel();
+	private static ShannonsController controller;
 	
 	/* CONSTRUCTORS	--------------------------------------------------	*/
 	/**
 	 *	Default construtor.
 	 */
-	public ShannonsTheorem(){ super(); }
+	public ShannonsTheorem(){
+		controller = new ShannonsController() {
+			
+			@Override
+			public void setSignalToNoise(double signalToNoiseRatio) {
+				this.setSignalToNoise(signalToNoiseRatio);
+				
+			}
+			
+			@Override
+			public void setBandwidth(double bandwidth) {
+				this.setBandwidth(bandwidth);
+				
+			}
+			
+			@Override
+			public void addObserver(Observer o) {
+				addObserver(o);
+			}
+		};
+		model = new ShannonsModel();
+		
+	}
 	/* ACCESSORS	-----------------------------------------------------	*/
 	private ShannonsModel getModel(){
-		return null;
+		return model;
 	}
 	
 	
@@ -60,7 +88,7 @@ public class ShannonsTheorem implements ShannonsController{
 	 * @param model
 	 */
 	private void setModel(ShannonsModel model){
-		
+		this.model = model;
 	}
 	/**
 	 * Takes in a double and sets the attribute bandwith in shannons model to the double variable
@@ -74,10 +102,26 @@ public class ShannonsTheorem implements ShannonsController{
 		JFrame appFrame = new JFrame("Shannons Theorem");
 		appFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
-		ShannonsPanel panel1 = new ShannonsPanel(this);
-//		ShannonsPanel panel2 = new ShannonsPanel(this);
-		appFrame.getContentPane().add(panel1);
-//		appFrame.getContentPane().add(panel2);
+		ShannonsPanel panel1 = new ShannonsPanel(this, "Text");
+		ShannonsPanel panel2 = new ShannonsPanel(this, "Slider");
+		ShannonsPanel panel3 = new ShannonsPanel(this, "Text");
+		//panel1.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+		panel1.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+		panel2.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+		panel3.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+		
+		
+		JPanel container = new JPanel();
+		container.setLayout(new BoxLayout(container, BoxLayout.Y_AXIS));
+		container.add(panel1);
+		container.add(panel2);
+		container.add(panel3);
+		
+		model.addObserver(panel1);
+		model.addObserver(panel2);
+		model.addObserver(panel3);
+		
+		appFrame.getContentPane().add(container);
 		appFrame.pack();
 		appFrame.setVisible(true);
 		
@@ -86,7 +130,7 @@ public class ShannonsTheorem implements ShannonsController{
 	
 	@Override
 	public void addObserver(Observer o) {
-		
+		controller = (ShannonsController) o;
 	}
 	
 	
@@ -98,40 +142,8 @@ public class ShannonsTheorem implements ShannonsController{
 	 */
 	public static void main(String args[]){
 		ShannonsTheorem shannonsTheorem = new ShannonsTheorem();
-		
 		shannonsTheorem.initGUI();
-//		String Str = "";
-//		boolean end = false;
-//		while(!end){
-//			try{
-//				DecimalFormat	DF = new DecimalFormat("##.##");
-//				shannonsTheorem.setBandwidth(Double.parseDouble(JOptionPane.showInputDialog("What is the bandwidth?")));
-//				shannonsTheorem.setSignalToNoise(Double.parseDouble(JOptionPane.showInputDialog("What is the signal to noise?")));
-//				JOptionPane.showMessageDialog(null, 
-//				"[The bandwidth is: " + Double.parseDouble(DF.format(shannonsTheorem.getBandwidth())) 
-//				 + " hz, The Signal to noise is: " + Double.parseDouble(DF.format(shannonsTheorem.getSignalToNoise())) 
-//				 + "db, The maximum data rate is: " + Double.parseDouble(DF.format(shannonsTheorem.getMaximumDataRate())) + " bps]");
-//				Str = JOptionPane.showInputDialog("Would you like to quit? (Y/N)");
-//				if (Str.equalsIgnoreCase("n")){
-//					end = false;
-//				}else{
-//					end = true;
-//				}
-//				
-//			}catch(NumberFormatException e){
-//								
-//			}catch(NullPointerException e){
-//				e.printStackTrace();
-//				int dialogButton = JOptionPane.YES_NO_OPTION;
-//				int dialogOutput = JOptionPane.showConfirmDialog(null, "Would you like to quit?", "Quit", dialogButton);
-//				if (dialogOutput == 0){
-//					JOptionPane.showMessageDialog(null, "Good Bye!");
-//					end = true;
-//				}else if (dialogOutput == 1){
-//					end = false;
-//				}
-//			}
-//		}
+
 	}
 
 }

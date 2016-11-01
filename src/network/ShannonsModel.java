@@ -40,9 +40,9 @@ public class ShannonsModel extends Observable {
 	 */
 	public void setBandwidth(double b) {
 		this.bandwidth = b;
-		System.out.println(this.bandwidth);
+		//System.out.println(this.bandwidth);
 		setChanged();
-		notifyObservers(this.bandwidth);
+		notifyObservers(toString());
 	}
 
 	/**
@@ -55,7 +55,7 @@ public class ShannonsModel extends Observable {
 		this.signalToNoise = stn;
 		System.out.println(this.signalToNoise);
 		setChanged();
-		notifyObservers(this.signalToNoise);
+		notifyObservers(toString());
 	}
 
 
@@ -77,10 +77,8 @@ public class ShannonsModel extends Observable {
 	@Override
 	public String toString() {
 		DF = new DecimalFormat("##.##");
-		return "[The bandwidth is: " + Double.parseDouble(DF.format(getBandwidth())) + " hz, The Signal to noise is: "
-				+ Double.parseDouble(DF.format(getSignalToNoise())) + "db, The maximum data rate is: "
-				+ Double.parseDouble(DF.format(getMaximumDataRate())) + " bps]";
-
+		return "Bandwidth is: " + Double.parseDouble(DF.format(getBandwidth())) + " , Signal to noise is:  " + Double.parseDouble(DF.format(getSignalToNoise())) + ", Maximum data rate is: " + Double.parseDouble(DF.format(getMaximumDataRate()));
+		
 	}
 
 	/**
