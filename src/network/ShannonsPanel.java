@@ -26,7 +26,10 @@ public class ShannonsPanel extends JPanel implements Observer{
 	private ShannonsController controller;
 	private JLabel maxDataRateLBL;
 	private String designOption;
-
+	private JTextField stnTextField;
+	private JTextField bwTextField;
+	private JSlider stnSlider;
+	private JSlider bandwidthSlider;
 	/**
 	 * 
 	 * @param ctl
@@ -98,22 +101,26 @@ public class ShannonsPanel extends JPanel implements Observer{
 		STNpanel.setLayout(new BoxLayout(STNpanel,BoxLayout.X_AXIS));
 		JLabel label = new JLabel("Signal to noise in (DB)");
 		STNpanel.add(label);
-		
+		stnTextField = new JTextField(20);
+		stnSlider = new JSlider(0, 100);
 		if (designOption.equals("Text")){
-			JTextField userInput = new JTextField(20);
-			STNpanel.add(userInput);
-			userInput.addActionListener(new ActionListener() {
+			stnTextField.setText("0");
+			STNpanel.add(stnTextField);
+			stnTextField.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					try{
-					controller.setSignalToNoise(Double.parseDouble(userInput.getText()));
+						controller.setSignalToNoise(Double.parseDouble(stnTextField.getText()));
+//						int num = (int) Double.parseDouble(stnTextField.getText());
+//						System.out.println(num);
+//						stnSlider.setValue(num);
 					}catch(Exception error){
-					
+						error.printStackTrace();
 					}
 				}
 			});
 		}else if (designOption.equals("Slider")){
-			JSlider stnSlider = new JSlider(0, 100);
+			
 			stnSlider.addChangeListener(new ChangeListener() {
 				@Override
 				public void stateChanged(ChangeEvent e) {
@@ -136,19 +143,26 @@ public class ShannonsPanel extends JPanel implements Observer{
 		bwPanel.setLayout(new BoxLayout(bwPanel, BoxLayout.X_AXIS));
 		JLabel label = new JLabel("Bandwith in (hz)");
 		bwPanel.add(label);
+
+		bwTextField = new JTextField(20);
+		bandwidthSlider = new JSlider(0, 5000);
 		if (designOption.equals("Text")){
-			JTextField userInput = new JTextField(20);
-			bwPanel.add(userInput);
-			userInput.addActionListener(new ActionListener() {
+			bwTextField.setText("0");
+			bwPanel.add(bwTextField);
+			bwTextField.addActionListener(new ActionListener() {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					try{
-						controller.setBandwidth(Double.parseDouble(userInput.getText()));
-					}catch(Exception error){ }	
+						controller.setBandwidth(Double.parseDouble(bwTextField.getText()));
+						int num = (int) Double.parseDouble(bwTextField.getText());
+						System.out.println(num);
+						bandwidthSlider.setValue(num);
+					}catch(Exception error){
+						error.printStackTrace();
+					}
 				}
 			});
 		}else if (designOption.equals("Slider")){
-			JSlider bandwidthSlider = new JSlider(0, 5000);
 			bandwidthSlider.addChangeListener(new ChangeListener() {
 				
 				@Override
@@ -164,6 +178,27 @@ public class ShannonsPanel extends JPanel implements Observer{
 	}	
 	public void update(Observable o, Object arg){
 		maxDataRateLBL.setText(arg.toString());
+		String[] temp;
+		String[] stnTemp;
+		String[] bwTemp;
+		String[] mdrTemp;
+		temp = arg.toString().split(",");
 		
+		bwTemp = temp[0].split(":");
+		stnTemp= temp[1].split(":");
+		mdrTemp = temp[2].split(":");
+		int num;
+		if (bwTextField != null){
+			num = (int) Double.parseDouble(bwTemp[1]);
+			//System.out.println(num);
+			bwTextField.setText(String.valueOf(num));	
+			bandwidthSlider.setValue(num);
+		}
+		if (stnTextField != null){
+			num = (int) Double.parseDouble(stnTemp[1]);
+			stnTextField.setText(String.valueOf(num));
+			//System.out.println(num);
+			stnSlider.setValue(num);
+		}	
 	}
 }

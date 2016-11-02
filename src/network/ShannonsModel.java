@@ -40,7 +40,6 @@ public class ShannonsModel extends Observable {
 	 */
 	public void setBandwidth(double b) {
 		this.bandwidth = b;
-		//System.out.println(this.bandwidth);
 		setChanged();
 		notifyObservers(toString());
 	}
@@ -53,7 +52,6 @@ public class ShannonsModel extends Observable {
 	 */
 	public void setSignalToNoise(double stn) {
 		this.signalToNoise = stn;
-		System.out.println(this.signalToNoise);
 		setChanged();
 		notifyObservers(toString());
 	}
@@ -76,9 +74,16 @@ public class ShannonsModel extends Observable {
 	 */
 	@Override
 	public String toString() {
+		StringBuilder test = new StringBuilder();
 		DF = new DecimalFormat("##.##");
-		return "Bandwidth is: " + Double.parseDouble(DF.format(getBandwidth())) + " , Signal to noise is:  " + Double.parseDouble(DF.format(getSignalToNoise())) + ", Maximum data rate is: " + Double.parseDouble(DF.format(getMaximumDataRate()));
 		
+		 test.append("Bandwidth is:" + getBandwidth());
+		 test.append(" ,Signal to noise is:" + getSignalToNoise());
+		 test.append(" ,Maximum data rate is:" + Double.parseDouble(DF.format(getMaximumDataRate())));
+
+		// System.out.println(test);
+
+		return test.toString();
 	}
 
 	/**
@@ -89,8 +94,7 @@ public class ShannonsModel extends Observable {
 	 * @return The calculated maxamum data rat.
 	 */
 	private static double maximumDataRate(double hertz, double snr) {
-		DF = new DecimalFormat("##.##");
-		String test = DF.format(hertz * (Math.log(1 + Math.pow(10, snr / 10)) / Math.log(2)));
-		return Double.parseDouble(test);
+
+		return (hertz * (Math.log(1 + Math.pow(10, snr / 10)) / Math.log(2)));
 	}
 }

@@ -34,25 +34,6 @@ public class ShannonsTheorem implements ShannonsController{
 	 *	Default construtor.
 	 */
 	public ShannonsTheorem(){
-		controller = new ShannonsController() {
-			
-			@Override
-			public void setSignalToNoise(double signalToNoiseRatio) {
-				this.setSignalToNoise(signalToNoiseRatio);
-				
-			}
-			
-			@Override
-			public void setBandwidth(double bandwidth) {
-				this.setBandwidth(bandwidth);
-				
-			}
-			
-			@Override
-			public void addObserver(Observer o) {
-				addObserver(o);
-			}
-		};
 		model = new ShannonsModel();
 		
 	}
@@ -88,9 +69,7 @@ public class ShannonsTheorem implements ShannonsController{
 	 * 
 	 * @param model
 	 */
-	private void setModel(ShannonsModel model){
-		this.model = model;
-	}
+	private void setModel(ShannonsModel model){	this.model = model; }
 	/**
 	 * Takes in a double and sets the attribute bandwith in shannons model to the double variable
 	 * @param h bandwidth value
@@ -117,9 +96,9 @@ public class ShannonsTheorem implements ShannonsController{
 		container.add(panel2);
 		container.add(panel3);
 		
-		model.addObserver(panel1);
-		model.addObserver(panel2);
-		model.addObserver(panel3);
+		addObserver(panel1);
+		addObserver(panel2);
+		addObserver(panel3);
 		
 		appFrame.getContentPane().add(container).setPreferredSize(new Dimension(500, 400));
 		appFrame.pack();
@@ -130,7 +109,7 @@ public class ShannonsTheorem implements ShannonsController{
 	
 	@Override
 	public void addObserver(Observer o) {
-		controller = (ShannonsController) o;
+		model.addObserver(o);
 	}
 	
 	
